@@ -1,0 +1,288 @@
+# Snippets for LaTeX
+# Mostly taken from https://github.com/gillescastel/latex-snippets
+# The usage is described in https://castel.dev/post/lecture-notes-1/
+
+global !p
+
+def math():
+  """Allows to condition snippets on being in an math environment in LaTeX"""
+  return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+
+endglobal
+
+snippet mk "Math" wA
+$${1}$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ', ')']:
+	snip.rv = ' '
+else:
+	snip.rv = ''
+`$2
+endsnippet
+
+snippet dm "Math" wA
+\[
+$1
+\] $0
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])(\d)' "auto subscript" wrA
+`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
+endsnippet
+
+context "math()"
+snippet '([A-Za-z])_(\d\d)' "auto subscripts2" wrA
+`!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
+endsnippet
+
+context "math()"
+snippet td "superscript" iA
+^{$1}$0
+endsnippet
+
+context "math()"
+snippet sr "²" iA
+^2
+endsnippet
+
+context "math()"
+snippet cb "³" iA
+^3
+endsnippet
+
+context "math()"
+snippet si "\SI" A
+\SI{$1}{$2}$0
+endsnippet
+
+context "math()"
+snippet // "Fraction" iA
+\\frac{$1}{$2}$0
+endsnippet
+
+priority 10
+context "math()"
+snippet "bar" "bar" riA
+\overline{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])bar" "bar" riA
+\overline{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority 10
+context "math()"
+snippet "hat" "hat" riA
+\hat{$1}$0
+endsnippet
+
+priority 100
+context "math()"
+snippet "([a-zA-Z])hat" "hat" riA
+\hat{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet "(\\?\w+)(,\.|\.,)" "Vector postfix" riA
+\vec{`!p snip.rv=match.group(1)`}
+endsnippet
+
+context "math()"
+snippet ** "dot" iA
+\cdot 
+endsnippet
+
+context "math()"
+snippet vec "vector" iA
+\begin{pmatrix}$1\end{pmatrix}$0
+endsnippet
+
+context "math()"
+snippet numset "Set of Numbers" iA
+\mathbb{$1}$0
+endsnippet
+
+# Snippets that automatically change greek unicode symbols to their LaTeX equivalent
+# This allows to type the greek directly, which is relatively easy with my keyboard layout
+context "math()"
+snippet α "alpha" iA
+\alpha 
+endsnippet
+
+context "math()"
+snippet β "beta" iA
+\beta 
+endsnippet
+
+context "math()"
+snippet γ "gamma" iA
+\gamma 
+endsnippet
+
+context "math()"
+snippet δ "delta" iA
+\delta 
+endsnippet
+
+context "math()"
+snippet Δ "Delta" iA
+\Delta 
+endsnippet
+
+context "math()"
+snippet ε "epsilon" iA
+\epsilon 
+endsnippet
+
+context "math()"
+snippet ω "omega" iA
+\omega 
+endsnippet
+
+context "math()"
+snippet π "pi" iA
+\pi 
+endsnippet
+
+context "math()"
+snippet λ "lambda" iA
+\lambda 
+endsnippet
+
+context "math()"
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "symbol frac" wrA
+\\frac{`!p snip.rv = match.group(1)`}{$1}$0
+endsnippet
+
+priority 1000
+context "math()"
+snippet '^.*\)/' "() frac" wrA
+`!p
+stripped = match.string[:-1]
+depth = 0
+i = len(stripped) - 1
+while True:
+	if stripped[i] == ')': depth += 1
+	if stripped[i] == '(': depth -= 1
+	if depth == 0: break;
+	i-=1
+snip.rv = stripped[0:i] + "\\frac{" + stripped[i+1:-1] + "}"
+`{$1}$0
+endsnippet
+
+context "math()"
+snippet != "equals" iA
+\neq 
+endsnippet
+
+context "math()"
+snippet () "left( right)" iA
+\left( ${1:${VISUAL}} \right) $0
+endsnippet
+
+context "math()"
+snippet lr "left( right)" i
+\left( ${1:${VISUAL}} \right) $0
+endsnippet
+
+context "math()"
+snippet lr( "left( right)" i
+\left( ${1:${VISUAL}} \right) $0
+endsnippet
+
+context "math()"
+snippet lr| "left| right|" i
+\left| ${1:${VISUAL}} \right| $0
+endsnippet
+
+context "math()"
+snippet lr{ "left\{ right\}" i
+\left\\{ ${1:${VISUAL}} \right\\} $0
+endsnippet
+
+context "math()"
+snippet lrb "left\{ right\}" i
+\left\\{ ${1:${VISUAL}} \right\\} $0
+endsnippet
+
+context "math()"
+snippet lr[ "left[ right]" i
+\left[ ${1:${VISUAL}} \right] $0
+endsnippet
+
+context "math()"
+snippet lim "limit" w
+\lim_{${1:n} \to ${2:\infty}} 
+endsnippet
+
+context "math()"
+snippet sq "\sqrt{}" iA
+\sqrt{${1:${VISUAL}}} $0
+endsnippet
+
+context "math()"
+snippet __ "subscript" iA
+_{$1}$0
+endsnippet
+
+context "math()"
+snippet ooo "\infty" iA
+\infty
+endsnippet
+
+context "math()"
+snippet sum "Sum" iA
+\sum_{${1:i}=${2:0}}^{${3:\infty}}$0
+endsnippet
+
+context "math()"
+snippet prod "Product" iA
+\prod_{${1:i}=${2:0}}^{${3:\infty}}$0
+endsnippet
+
+snippet ~~ "~" iA
+\sim
+endsnippet
+
+context "math()"
+snippet tt "text" iA
+\text{$1}$0
+endsnippet
+
+
+snippet # "section" b
+\section{$1}
+
+$0
+endsnippet
+
+snippet ## "subsection" b
+\subsection{$1}
+
+$0
+endsnippet
+
+snippet ### "subsubsection" b
+\subsubsection{$1}
+
+$0
+endsnippet
+
+snippet beg "begin{} / end{}" bA
+\begin{$1}
+  $0
+\end{$1}
+endsnippet
+
+snippet fig "figure" bA
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=${1:0.7}\textwidth]{$2}
+  \caption{$3}
+  \label{fig:$2}
+\end{figure}
+$0
+endsnippet
+

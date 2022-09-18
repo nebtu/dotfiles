@@ -1,0 +1,49 @@
+directory: ~/Music
+library: ~/data/musiclibrary.db
+
+plugins: spotify lyrics playlist edit fetchart embedart
+
+paths:
+  default: $albumartist/$album%aunique{}/$track $title
+  singleton: Non-Album/$artist/$title
+
+import:
+  copy: no
+  incremental: yes
+
+spotify:
+  source_weight: 0.9
+  show_failures: yes
+    #mode: open
+  artist_field: artist
+  regex: [
+    {
+      field: "artist",
+      search: "/",
+      replace: ", "
+    },
+    {
+      field: "album",
+      search: "grossten",
+      replace: "größten"
+    }
+  ] 
+
+lyrics:
+  force: yes
+  google_API_key: AIzaSyDaf8jbZUPgc29XGi49ZtBVDwbkNmpC9lE
+  sources: genius tekstowo
+  fallback: ''
+
+playlist:
+  auto: yes
+  playlist_dir: ~/Music/Playlists
+  relative_to: ~/Music
+
+fetchart:
+  enforce_ratio: yes
+  sources: coverart itunes amazon albumart wikipedia
+
+embedart:
+  ifempty: yes
+  remove_art_file: yes
