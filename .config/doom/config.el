@@ -54,7 +54,7 @@
 
 (use-package! org-roam
   :config
-  (setq org-roam-directory "~/nas/org/")
+  (setq org-roam-directory "~/Documents/org/")
   (setq org-roam-capture-templates
   '(("d" "default" plain
       "%?" :target
