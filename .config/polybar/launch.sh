@@ -7,4 +7,5 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch Polybar
-polybar bottom &
+MONITOR=eDP-1 polybar bottom &
+MONITOR=HDMI-1 polybar bottom &
