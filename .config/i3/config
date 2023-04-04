@@ -202,7 +202,10 @@ for_window [all] border pixel 0
 
 gaps inner 20
 
-exec --no-startup-id xrandr --output HDMI-1 --auto --left-of eDP-1
+bindsym Mod4+i exec $HOME/Documents/scripts/tex4all/texvenv/bin/python $HOME/Documents/scripts/tex4all/tex4all.py
+for_window [class="Alacritty floating"] floating enable
+
+exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec picom -b
 
