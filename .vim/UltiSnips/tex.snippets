@@ -11,7 +11,7 @@ def math():
 endglobal
 
 snippet mk "Math" wA
-$${1}$`!p
+\(${1}\)`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ', ')']:
 	snip.rv = ' '
 else:
@@ -23,6 +23,16 @@ snippet dm "Math" wA
 \[
 $1
 \] $0
+endsnippet
+
+snippet anlt "anki-env" wA
+[latex]
+$1
+[/latex]
+endsnippet
+
+snippet cz "clozed deletion" wA 
+{{c$1::$2}}$0
 endsnippet
 
 context "math()"
@@ -100,7 +110,7 @@ snippet vec "vector" iA
 endsnippet
 
 context "math()"
-snippet numset "Set of Numbers" iA
+snippet nst "Set of Numbers" iA
 \mathbb{$1}$0
 endsnippet
 
@@ -133,7 +143,7 @@ endsnippet
 
 context "math()"
 snippet ε "epsilon" iA
-\epsilon 
+\varepsilon 
 endsnippet
 
 context "math()"
@@ -149,6 +159,16 @@ endsnippet
 context "math()"
 snippet λ "lambda" iA
 \lambda 
+endsnippet
+
+context "math()"
+snippet φ "varphi" iA
+\varphi 
+endsnippet
+
+context "math()"
+snippet ϕ "phi" iA
+\phi 
 endsnippet
 
 context "math()"
@@ -175,6 +195,11 @@ endsnippet
 context "math()"
 snippet != "equals" iA
 \neq 
+endsnippet
+
+context "math()"
+snippet :=  "define" iA
+\coloneqq
 endsnippet
 
 context "math()"
@@ -210,6 +235,11 @@ endsnippet
 context "math()"
 snippet lr[ "left[ right]" i
 \left[ ${1:${VISUAL}} \right] $0
+endsnippet
+
+context "math()"
+snippet <> "left< right>" iA
+\left\langle $1 \right\rangle $0
 endsnippet
 
 context "math()"
