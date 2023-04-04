@@ -198,6 +198,9 @@ for_window [all] border pixel 0
 
 gaps inner 20
 
+bindsym Mod4+i exec $HOME/Documents/scripts/tex4all/texvenv/bin/python $HOME/Documents/scripts/tex4all/tex4all.py
+for_window [class="Alacritty floating"] floating enable
+
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec picom -b
 
