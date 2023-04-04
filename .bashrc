@@ -19,3 +19,5 @@ alias bgimg=~/.fehbg
 alias mntnas='sudo mount -t nfs -o vers=4 klumpat-nas:/volume1/B_Special ~/nas'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
+source /usr/share/fzf/key-bindings.bash
+source /usr/share/fzf/completion.bash
