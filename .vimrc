@@ -65,3 +65,4 @@ hi Normal ctermbg=NONE
 set expandtab
 set shiftwidth=2
 set softtabstop=2
+set scrolloff=5
