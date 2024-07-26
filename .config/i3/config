@@ -207,5 +207,6 @@ for_window [class="Alacritty floating"] floating enable
 
 exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id feh --no-fehbg --bg-scale $HOME/.config/bgimg/forest-ch.jpg
 exec picom -b
 
