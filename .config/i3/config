@@ -184,6 +184,10 @@ mode "resize" {
 
 bindsym Mod4+r mode "resize"
 
+# moving workspaces between screens
+bindsym Mod4+o move workspace to output left
+bindsym Mod4+p move workspace to output right
+
 # class                 border  backgr. text    indicator child_border
 client.focused          #d65d0e #285577 #ffffff #d65d0e   #d65d0e
 client.focused_inactive #d79921 #5f676a #ffffff #484e50   #d79921
@@ -198,6 +202,10 @@ for_window [all] border pixel 0
 
 gaps inner 20
 
+bindsym Mod4+i exec $HOME/Documents/scripts/tex4all/texvenv/bin/python $HOME/Documents/scripts/tex4all/tex4all.py
+for_window [class="Alacritty floating"] floating enable
+
+exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec picom -b
 

@@ -51,10 +51,14 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
+(after! org
+  (setq org-agenda-files '("~/Documents/org/" ))
+)
 
 (use-package! org-roam
   :config
-  (setq org-roam-directory "~/nas/org/")
+  (setq org-roam-directory "~/Documents/org/")
   (setq org-roam-capture-templates
   '(("d" "default" plain
       "%?" :target
