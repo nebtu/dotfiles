@@ -126,13 +126,18 @@ snippet <=> "Equivalence" iA
 endsnippet
 
 context "math()"
+snippet =>  "Implies" iA
+\Rightarrow
+endsnippet
+
+context "math()"
 snippet -> "to" iA
 \to 
 endsnippet
 
 context "math()"
-snippet |-> "mapsto" iA
-\mapsto
+snippet |> "mapsto" iA
+\mapsto 
 endsnippet
 
 context "math()"
@@ -312,6 +317,17 @@ context "math()"
 snippet lr[ "left[ right]" i
 \left[ ${1:${VISUAL}} \right] $0
 endsnippet
+
+context "math()"
+snippet nrm "left|| right||" iA
+\left\lVert ${1:${VISUAL}} \right\rVert $0
+endsnippet
+
+context "math()"
+snippet lr|| "left|| right||" i
+\left\lVert ${1:${VISUAL}} \right\rVert $0
+endsnippet
+
 
 context "math()"
 snippet <> "left< right>" iA
