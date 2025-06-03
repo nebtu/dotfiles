@@ -10,7 +10,7 @@ alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 PS1='[\u@\h \W]\$ '
 export PATH=~/.emacs.d/bin:$PATH
 PATH="$HOME/.local/bin:$PATH"
-export EDITOR=vim
+export EDITOR=nvim
 export TERMINAL=alacritty
 
 alias beet='~/builds/beets-src/beets/beet'
