@@ -55,6 +55,7 @@ bindsym Mod4+Shift+q kill
 bindsym Mod4+d exec ~/.config/rofi/launchers/type-6/launcher.sh
 bindsym Mod4+Escape exec ~/.config/rofi/powermenu/type-4/powermenu.sh
 bindsym Mod4+Shift+s exec maim -s | xclip -selection clipboard -t image/png
+bindsym Mod4+q exec cinnamon-screensaver-command --lock
 
 # change focus
 bindsym Mod4+$left focus left
@@ -200,7 +201,7 @@ client.background       #ffffff
 focus_follows_mouse no
 for_window [all] border pixel 0
 
-gaps inner 20
+#gaps inner 20
 
 bindsym Mod4+i exec python $HOME/.config/insert_latex.py
 for_window [class="Alacritty floating"] floating enable
@@ -208,5 +209,5 @@ for_window [class="Alacritty floating"] floating enable
 exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id feh --no-fehbg --bg-scale $HOME/.config/bgimg/forest-ch.jpg
-exec picom -b
+exec picom --experimental-backends -b
 

@@ -8,7 +8,7 @@
 alias ls='ls --color=auto'
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 PS1='[\u@\h \W]\$ '
-export PATH=~/.emacs.d/bin:$PATH
+#export PATH=~/.emacs.d/bin:$PATH
 PATH="$HOME/.local/bin:$PATH"
 export EDITOR=vim
 export TERMINAL=alacritty
@@ -19,5 +19,8 @@ alias bgimg=~/.fehbg
 alias mntnas='sudo mount -t nfs -o vers=4 klumpat-nas:/volume1/B_Special ~/nas'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-source /usr/share/fzf/key-bindings.bash
-source /usr/share/fzf/completion.bash
+#source /usr/share/fzf/key-bindings.bash
+#source /usr/share/fzf/completion.bash
+
+source /usr/share/doc/fzf/examples/key-bindings.bash
+
