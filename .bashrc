@@ -9,6 +9,7 @@ alias ls='ls --color=auto'
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 PS1='[\u@\h \W]\$ '
 #export PATH=~/.emacs.d/bin:$PATH
+export PATH="$PATH:/opt/nvim/"
 PATH="$HOME/.local/bin:$PATH"
 export EDITOR=nvim
 export TERMINAL=alacritty
