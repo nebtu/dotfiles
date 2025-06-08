@@ -121,6 +121,13 @@ end)
 -- Enable break indent
 vim.o.breakindent = true
 
+-- saner default tabs etc
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+
+vim.o.textwidth = 80
+vim.opt.formatoptions:remove({ "t" })
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -166,7 +173,7 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
-vim.o.conceallevel = 2 -- mostly for latex, so maybe limit to that if annoying in quarto etc
+vim.o.conceallevel = 0
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -729,6 +736,8 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"r-languageserver",
+				"air", -- r code formater
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -748,7 +757,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
 	{ -- Autoformat
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
@@ -781,13 +789,16 @@ require("lazy").setup({
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
-				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
-				--
-				-- You can use 'stop_after_first' to run the first available formatter from the list
-				-- javascript = { "prettierd", "prettier", stop_after_first = true },
+				quarto = { "injected" },
+				rmd = { "injected" },
+				r = { "air" },
 			},
 		},
+		-- Conform can also run multiple formatters sequentially
+		-- python = { "isort", "black" },
+		--
+		-- You can use 'stop_after_first' to run the first available formatter from the list
+		-- javascript = { "prettierd", "prettier", stop_after_first = true },
 	},
 
 	{ -- Autocompletion
@@ -882,7 +893,7 @@ require("lazy").setup({
 			-- the rust implementation via `'prefer_rust_with_warning'`
 			--
 			-- See :h blink-cmp-config-fuzzy for more information
-			fuzzy = { implementation = "lua" },
+			fuzzy = { implementation = "prefer_rust_with_warning" },
 
 			-- Shows a signature help window while you type arguments for a function
 			signature = { enabled = true },
@@ -939,7 +950,74 @@ require("lazy").setup({
 			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
 
-			require("mini.pairs").setup()
+			require("mini.pairs").setup({
+				mappings = {
+					[")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
+					["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
+					["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
+					["["] = {
+						action = "open",
+						pair = "[]",
+						neigh_pattern = ".[%s%z%)}%]]",
+						register = { cr = false },
+						-- foo|bar -> press "[" -> foo[bar
+						-- foobar| -> press "[" -> foobar[]
+						-- |foobar -> press "[" -> [foobar
+						-- | foobar -> press "[" -> [] foobar
+						-- foobar | -> press "[" -> foobar []
+						-- {|} -> press "[" -> {[]}
+						-- (|) -> press "[" -> ([])
+						-- [|] -> press "[" -> [[]]
+					},
+					["{"] = {
+						action = "open",
+						pair = "{}",
+						-- neigh_pattern = ".[%s%z%)}]",
+						neigh_pattern = ".[%s%z%)}%]]",
+						register = { cr = false },
+						-- foo|bar -> press "{" -> foo{bar
+						-- foobar| -> press "{" -> foobar{}
+						-- |foobar -> press "{" -> {foobar
+						-- | foobar -> press "{" -> {} foobar
+						-- foobar | -> press "{" -> foobar {}
+						-- (|) -> press "{" -> ({})
+						-- {|} -> press "{" -> {{}}
+					},
+					["("] = {
+						action = "open",
+						pair = "()",
+						-- neigh_pattern = ".[%s%z]",
+						neigh_pattern = ".[%s%z%)]",
+						register = { cr = false },
+						-- foo|bar -> press "(" -> foo(bar
+						-- foobar| -> press "(" -> foobar()
+						-- |foobar -> press "(" -> (foobar
+						-- | foobar -> press "(" -> () foobar
+						-- foobar | -> press "(" -> foobar ()
+					},
+					-- Single quote: Prevent pairing if either side is a letter
+					['"'] = {
+						action = "closeopen",
+						pair = '""',
+						neigh_pattern = "[^%w\\][^%w]",
+						register = { cr = false },
+					},
+					-- Single quote: Prevent pairing if either side is a letter
+					["'"] = {
+						action = "closeopen",
+						pair = "''",
+						neigh_pattern = "[^%w\\][^%w]",
+						register = { cr = false },
+					},
+					-- Backtick: Prevent pairing if either side is a letter
+					["`"] = {
+						action = "closeopen",
+						pair = "``",
+						neigh_pattern = "[^%w\\][^%w]",
+						register = { cr = false },
+					},
+				},
+			})
 
 			-- Simple and easy statusline.
 			--  You could remove this setup call if you don't like it,
@@ -1018,6 +1096,21 @@ require("lazy").setup({
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.
+	--
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+  -- stylua: ignore
+  keys = {
+    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+  },
+	},
 	--
 	--  Uncomment the following line and add your plugins to `lua/plugins/*.lua` to get going.
 	{ import = "plugins" },

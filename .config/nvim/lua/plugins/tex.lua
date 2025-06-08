@@ -18,6 +18,7 @@ return {
 			vim.g.UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
 			vim.g.UltiSnipsSnippetDirectories = { "~/.vim/UltiSnips" }
 			vim.g.UltiSnipsEditSplit = "context"
+			vim.g.vimtex_format_enables = true
 		end,
 	},
 }
