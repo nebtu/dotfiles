@@ -1,4 +1,7 @@
 vim.opt_local.formatoptions:append({ "t" })
+vim.b.bracketed_paste = 0 --hopefully fixes unclean radian pasting
+
+vim.b.slime_cell_delimiter = "```"
 
 local api = vim.api
 local ts = vim.treesitter
