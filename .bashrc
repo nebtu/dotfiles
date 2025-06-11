@@ -11,7 +11,8 @@ PS1='[\u@\h \W]\$ '
 #export PATH=~/.emacs.d/bin:$PATH
 export PATH="$PATH:/opt/nvim/"
 PATH="$HOME/.local/bin:$PATH"
-export EDITOR=nvim
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 export TERMINAL=alacritty
 
 alias beet='~/builds/beets-src/beets/beet'

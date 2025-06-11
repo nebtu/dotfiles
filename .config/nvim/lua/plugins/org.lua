@@ -4,8 +4,8 @@ return {
 		event = "VeryLazy",
 		config = function()
 			require("orgmode").setup({
-				org_agenda_files = "~/Documents/org",
-				org_default_notes_file = "~/Documents/org/20200909144154-scratchpad.org",
+				org_agenda_files = "~/Nextcloud/Documents/org/",
+				org_default_notes_file = "~/Nextcloud/Documents/org/scratchpad.org",
 			})
 		end,
 	},
@@ -14,7 +14,7 @@ return {
 		dependencies = { "nvim-orgmode/orgmode" },
 		config = function()
 			require("org-roam").setup({
-				directory = "~/Documents/org/",
+				directory = "~/Nextcloud/Documents/org/",
 			})
 		end,
 	},
