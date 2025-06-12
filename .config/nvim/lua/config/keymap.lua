@@ -73,8 +73,8 @@ local insert_julia_chunk = function()
 	insert_code_chunk("julia")
 end
 
-vim.keymap.set("n", "<c-i>", insert_r_chunk, { desc = "Insert R code chunk" })
-vim.keymap.set("i", "<c-i>", insert_r_chunk, { desc = "Insert R code chunk" })
+vim.keymap.set("n", "<c-p>", insert_r_chunk, { desc = "Insert R code chunk" })
+vim.keymap.set("i", "<c-p>", insert_r_chunk, { desc = "Insert R code chunk" })
 vim.keymap.set("n", "<leader>z", ":setlocal spell!<cr>", { desc = "Toggle spell checking" })
 
 local function new_terminal(lang)
