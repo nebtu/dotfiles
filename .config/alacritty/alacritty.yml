@@ -60,3 +60,7 @@ colors:
     magenta: '0xd3869b'
     cyan:    '0x8ec07c'
     white:   '0xebdbb2'
+
+key_bindings:
+ - {key: Return, mods: Shift, chars: "\x1b[13;2u"}
+ - {key: Return, mods: Control, chars: "\x1b[13;5u"}
