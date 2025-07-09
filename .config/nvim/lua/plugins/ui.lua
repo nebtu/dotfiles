@@ -152,8 +152,6 @@ return {
 
 			-- Document existing key chains
 			spec = {
-				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 			},
 		},
@@ -201,7 +199,7 @@ return {
 		"hedyhli/outline.nvim",
 		cmd = "Outline",
 		keys = {
-			{ "<leader>l", ":Outline<cr>", desc = "symbols outline" },
+			{ "<leader>ll", ":Outline<cr>", desc = "symbols outline" },
 		},
 		opts = {
 			providers = {
