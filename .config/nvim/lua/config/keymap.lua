@@ -6,7 +6,7 @@
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -125,17 +125,16 @@ vim.keymap.set("n", "<c-cr>", run_cell_continue, { desc = "Run chunk and continu
 require("which-key").add({
 	{
 		{ "<leader>c", group = "[c]ode / [c]ell / [c]hunk" },
-		{ "<leader>ci", new_terminal_ipython, desc = "new [i]python terminal" },
+		{ "<leader>cy", new_terminal_ipython, desc = "new ipython terminal" },
 		{ "<leader>cj", new_terminal_julia, desc = "new [j]ulia terminal" },
 		{ "<leader>cp", new_terminal_python, desc = "new [p]ython terminal" },
 		{ "<leader>cr", new_terminal_r, desc = "new [R] terminal" },
-		{ "<leader>o", group = "[o]tter & c[o]de" },
-		{ "<leader>oa", require("otter").activate, desc = "otter [a]ctivate" },
-		{ "<leader>oc", "O# %%<cr>", desc = "magic [c]omment code chunk # %%" },
-		{ "<leader>od", require("otter").activate, desc = "otter [d]eactivate" },
-		{ "<leader>oj", insert_julia_chunk, desc = "[j]ulia code chunk" },
-		{ "<leader>op", insert_py_chunk, desc = "[p]ython code chunk" },
-		{ "<leader>or", insert_r_chunk, desc = "[r] code chunk" },
+		{ "<leader>ca", require("otter").activate, desc = "otter [a]ctivate" },
+		{ "<leader>cc", "O# %%<cr>", desc = "magic [c]omment code chunk # %%" },
+		{ "<leader>cd", require("otter").activate, desc = "otter [d]eactivate" },
+		{ "<leader>cij", insert_julia_chunk, desc = "[j]ulia code chunk" },
+		{ "<leader>cip", insert_py_chunk, desc = "[p]ython code chunk" },
+		{ "<leader>cir", insert_r_chunk, desc = "[r] code chunk" },
 		{ "<leader>q", group = "[q]uarto" },
 		{
 			"<leader>qE",
@@ -156,6 +155,10 @@ require("which-key").add({
 		{ "<leader>qrr", ":QuartoSendAbove<cr>", desc = "to cu[r]sor" },
 		{ "<leader>r", group = "[r] R specific tools" },
 		{ "<leader>rt", show_r_table, desc = "show [t]able" },
+		{ "<leader>l", group = "[L]SP" },
+		{ "<leader>n", group = "Org Roam" },
+		{ "<leader>o", group = "[O]rg Mode" },
+		{ "<leader>s", group = "[S]earch" },
 	},
 	{ mode = "n" },
 })
