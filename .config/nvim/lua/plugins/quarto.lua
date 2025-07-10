@@ -59,9 +59,9 @@ return {
 			vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
 		end,
 		keys = {
-			{ "q", "<Plug>SlimeMotionSend", mode = "n", desc = "Slime Motion Send" },
-			{ "qq", "<Plug>SlimeLineSend", mode = "n", desc = "Slime Line Send" },
-			{ "q", "<Plug>SlimeRegionSend", mode = "x", desc = "Slime Region Send" },
+			{ "Q", "<Plug>SlimeMotionSend", mode = "n", desc = "Slime Motion Send" },
+			{ "QQ", "<Plug>SlimeLineSend", mode = "n", desc = "Slime Line Send" },
+			{ "Q", "<Plug>SlimeRegionSend", mode = "x", desc = "Slime Region Send" },
 			{ "<CR-Q>", "<Plug>SlimeCellSend", mode = "n", desc = "Slime Cell Send" },
 		},
 	},
