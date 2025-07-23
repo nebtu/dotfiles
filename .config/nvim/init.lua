@@ -596,9 +596,17 @@ require("lazy").setup({
 			},
 
 			sources = {
+				per_filetype = {
+					org = { "orgmode" },
+				},
 				default = { "lsp", "path", "snippets", "lazydev", "references" },
 				providers = {
 					lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+					orgmode = {
+						name = "Orgmode",
+						module = "orgmode.org.autocompletion.blink",
+						fallbacks = { "buffer" },
+					},
 					references = {
 						name = "pandoc_references",
 						module = "cmp-pandoc-references.blink",
