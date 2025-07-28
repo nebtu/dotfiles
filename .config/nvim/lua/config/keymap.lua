@@ -109,18 +109,40 @@ local function show_r_table()
 	vim.cmd(cmd)
 end
 
+local function source_file()
+	local file_path = vim.fn.expand("%:p")
+	local cmd = [[call slime#send("source(']] .. file_path .. [[')" . "\r")]]
+	vim.cmd(cmd)
+end
+
+local function is_otter_active()
+	local otterkeeper = require("otter.keeper")
+	local buf = vim.api.nvim_get_current_buf()
+	return otterkeeper.rafts[buf] ~= nil
+end
+
 local function run_cell_continue()
-	if is_code_chunk() then
-		require("quarto.runner").run_cell()
-	end
-	local lnum = vim.fn.search("^```", "W")
-	print(lnum)
-	if lnum ~= 0 then
-		vim.api.nvim_win_set_cursor(0, { lnum + 1, 0 })
+	if is_otter_active() then
+		if is_code_chunk() then
+			require("quarto.runner").run_cell()
+		end
+		local lnum = vim.fn.search("^```", "W")
+		if lnum ~= 0 then
+			vim.api.nvim_win_set_cursor(0, { lnum + 1, 0 })
+		end
+	else
+		vim.cmd("normal Qap")
+		vim.cmd("normal! }")
 	end
 end
 
-vim.keymap.set("n", "<c-cr>", run_cell_continue, { desc = "Run chunk and continue to next" })
+local function run_line_continue()
+	vim.cmd("normal QQ")
+	vim.cmd("normal! +")
+end
+
+vim.keymap.set("n", "<c-cr>", run_cell_continue, { desc = "Run chunk/paragraph and continue to next" })
+vim.keymap.set("n", "<s-cr>", run_line_continue, { desc = "Run line and continue to next" })
 
 require("which-key").add({
 	{
@@ -155,6 +177,7 @@ require("which-key").add({
 		{ "<leader>qrr", ":QuartoSendAbove<cr>", desc = "to cu[r]sor" },
 		{ "<leader>r", group = "[r] R specific tools" },
 		{ "<leader>rt", show_r_table, desc = "show [t]able" },
+		{ "<leader>rs", source_file, desc = "[s]ource file" },
 		{ "<leader>l", group = "[L]SP" },
 		{ "<leader>n", group = "Org Roam" },
 		{ "<leader>o", group = "[O]rg Mode" },
