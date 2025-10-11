@@ -200,7 +200,7 @@ client.background       #ffffff
 focus_follows_mouse no
 for_window [all] border pixel 0
 
-gaps inner 20
+gaps inner 0
 
 bindsym Mod4+i exec python $HOME/.config/insert_latex.py
 for_window [class="Alacritty floating"] floating enable
