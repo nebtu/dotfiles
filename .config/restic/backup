@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source ~/.config/restic/environment.sh
+
+notify-send "Restic backup started."
+
+echo "Creating incremental backup ...."
+
+### Backup new stuff
+restic backup \
+      --verbose \
+      --files-from ~/.config/restic/backup.files \
+      --exclude-file ~/.config/restic/exclude.files
+
+### Remove old stuff
+echo "Deleting old backups ..."
+restic forget \
+    --keep-last 7 \
+    --keep-daily 14 \
+    --keep-weekly 4 \
+    --keep-monthly 6
+
+echo "Don't forget to run \"restic check\" from time to time"
+echo "Backup finished."
+
+notify-send "Restic backup finished."

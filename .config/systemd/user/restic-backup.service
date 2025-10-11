@@ -1,0 +1,8 @@
+[Unit]
+Description=Restic backup service
+
+[Service]
+ExecStart=~/.config/backup
+
+[Install]
+WantedBy=timers.target
