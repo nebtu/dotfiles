@@ -15,8 +15,8 @@ return {
 			vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
 			vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
 			vim.g.UltiSnipsUsePythonVersion = 3
-			vim.g.UltiSnipsSnippetsDir = "~/.vim/UltiSnips"
-			vim.g.UltiSnipsSnippetDirectories = { "~/.vim/UltiSnips" }
+			vim.g.UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+			vim.g.UltiSnipsSnippetDirectories = { "~/.config/nvim/UltiSnips" }
 			vim.g.UltiSnipsEditSplit = "context"
 			vim.g.vimtex_format_enables = true
 		end,
