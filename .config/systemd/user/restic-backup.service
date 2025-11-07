@@ -2,7 +2,7 @@
 Description=Restic backup service
 
 [Service]
-ExecStart=~/.config/backup
+ExecStart=/home/ben/.config/restic/backup
 
 [Install]
 WantedBy=timers.target
