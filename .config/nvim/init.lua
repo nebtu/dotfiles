@@ -642,8 +642,6 @@ require("lazy").setup({
 			})
 
 			-- Load the colorscheme here.
-			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
 			vim.cmd.colorscheme("gruvbox")
 		end,
 	},
@@ -766,6 +764,7 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				"latex",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,

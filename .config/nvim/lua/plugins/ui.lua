@@ -177,6 +177,9 @@ return {
 			keymaps = {
 				["<C-h>"] = false,
 				["<C-l>"] = false,
+				["~"] = { "actions.cd", mode = "n" },
+				["`"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+				["<Char-0x2014>"] = "actions.refresh",
 			},
 			view_options = {
 				show_hidden = true,
