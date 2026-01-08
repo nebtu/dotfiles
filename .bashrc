@@ -8,17 +8,15 @@
 alias ls='ls --color=auto'
 alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 PS1='[\u@\h \W]\$ '
-#export PATH=~/.emacs.d/bin:$PATH
-export PATH="$PATH:/opt/nvim/"
-PATH="$HOME/.local/bin:$PATH"
+export PATH=~/.emacs.d/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 export TERMINAL=alacritty
 
-alias beet='~/builds/beets-src/beets/beet'
 alias sus='systemctl suspend'
 alias bgimg=~/.fehbg
-alias mntnas='sudo mount -t nfs -o vers=4 klumpat-nas:/volume1/B_Special ~/nas'
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias r=radian
 
