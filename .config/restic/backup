@@ -1,26 +1,18 @@
 #!/bin/bash
+# Daily restic backup of /home/ben to the NAS.
+# Runs via systemd: restic-backup.timer -> restic-backup.service
+set -euo pipefail   # stop at the first error, so failures reach systemd
 
 source ~/.config/restic/environment.sh
 
-notify-send "Restic backup started."
+# Clear locks left behind by interrupted runs (safe: only removes stale ones)
+restic unlock
 
-echo "Creating incremental backup ...."
-
-### Backup new stuff
 restic backup \
-      --verbose \
-      --files-from ~/.config/restic/backup.files \
-      --exclude-file ~/.config/restic/exclude.files
-
-### Remove old stuff
-echo "Deleting old backups ..."
-restic forget \
-    --keep-last 7 \
-    --keep-daily 14 \
-    --keep-weekly 4 \
-    --keep-monthly 6
-
-echo "Don't forget to run \"restic check\" from time to time"
-echo "Backup finished."
+    --verbose \
+    --one-file-system \
+    --exclude-caches \
+    --files-from ~/.config/restic/backup.files \
+    --exclude-file ~/.config/restic/exclude.files
 
 notify-send "Restic backup finished."

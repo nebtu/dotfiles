@@ -1,10 +1,10 @@
 [Unit]
-Description=Timer for restic-backup
+Description=Daily restic backup
 
 [Timer]
-OnBootSec=2m
-OnUnitInactiveSec=1d
+OnCalendar=daily
+RandomizedDelaySec=15m
 Persistent=true
 
 [Install]
-WantedBy=basic.target
+WantedBy=timers.target

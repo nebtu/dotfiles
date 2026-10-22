@@ -1,8 +1,9 @@
 [Unit]
-Description=Restic backup service
+Description=Restic backup
+OnFailure=restic-failure@%n.service
 
 [Service]
+Type=oneshot
 ExecStart=/home/ben/.config/restic/backup
-
-[Install]
-WantedBy=timers.target
+Nice=10
+TimeoutStartSec=4h
