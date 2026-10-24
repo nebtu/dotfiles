@@ -67,6 +67,8 @@ return {
 	},
 	{ -- directly open ipynb files as quarto docuements
 		-- and convert back behind the scenes
+		-- Better (i think): use jupytext from the console, because that ties in
+		-- with uv, and is more elegant in general
 		"GCBallesteros/jupytext.nvim",
 		opts = {
 			custom_language_formatting = {
