@@ -63,10 +63,12 @@ bindsym Mod4+$up focus up
 bindsym Mod4+$right focus right
 
 # alternatively, you can use the cursor keys:
-bindsym Mod4+Left focus left
-bindsym Mod4+Down focus down
-bindsym Mod4+Up focus up
-bindsym Mod4+Right focus right
+# NOTE: bound by keycode (Neo layout puts Left/Down/Up/Right keysyms on the
+# s/d/e/f keys too, which would steal Mod4+s/d/e/f — e.g. rofi on Mod4+d).
+bindcode Mod4+113 focus left
+bindcode Mod4+116 focus down
+bindcode Mod4+111 focus up
+bindcode Mod4+114 focus right
 
 # move focused window
 bindsym Mod4+Shift+$left move left
@@ -75,10 +77,10 @@ bindsym Mod4+Shift+$up move up
 bindsym Mod4+Shift+$right move right
 
 # alternatively, you can use the cursor keys:
-bindsym Mod4+Shift+Left move left
-bindsym Mod4+Shift+Down move down
-bindsym Mod4+Shift+Up move up
-bindsym Mod4+Shift+Right move right
+bindcode Mod4+Shift+113 move left
+bindcode Mod4+Shift+116 move down
+bindcode Mod4+Shift+111 move up
+bindcode Mod4+Shift+114 move right
 
 # split in horizontal orientation
 bindsym Mod4+c split h
@@ -171,10 +173,10 @@ mode "resize" {
         bindsym $right      resize grow width 1 px or 1 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left        resize shrink width 5 px or 5 ppt
-        bindsym Down        resize grow height 5 px or 5 ppt
-        bindsym Up          resize shrink height 5 px or 5 ppt
-        bindsym Right       resize grow width 5 px or 5 ppt
+        bindcode 113        resize shrink width 5 px or 5 ppt
+        bindcode 116        resize grow height 5 px or 5 ppt
+        bindcode 111        resize shrink height 5 px or 5 ppt
+        bindcode 114        resize grow width 5 px or 5 ppt
 
         # back to normal: Enter or Escape or Mod4+r
         bindsym Return mode "default"
