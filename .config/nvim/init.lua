@@ -423,11 +423,6 @@ require("lazy").setup({
 						-- diagnostics = { disable = { 'missing-fields' } },
 					},
 				},
-
-				r_language_server = {
-					filetypes = { "r", "rmd", "rmarkdown" },
-					settings = { r = { lsp = { rich_documentation = false } } },
-				},
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -446,7 +441,6 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
-				"r-languageserver",
 				"air", -- r code formater
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -454,6 +448,8 @@ require("lazy").setup({
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
 				automatic_installation = false,
+				-- R language features come from ark (jet.ark), which runs with the kernel
+				automatic_enable = { exclude = { "r_language_server" } },
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
@@ -768,6 +764,7 @@ require("lazy").setup({
 				"vim",
 				"vimdoc",
 				"r",
+				"python",
 				"latex",
 			})
 		end,

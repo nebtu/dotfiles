@@ -81,18 +81,6 @@ local function new_terminal(lang)
 	vim.cmd("vsplit term://" .. lang)
 end
 
-local function new_terminal_python()
-	new_terminal("python")
-end
-
-local function new_terminal_r()
-	new_terminal("radian")
-end
-
-local function new_terminal_ipython()
-	new_terminal("ipython --no-confirm-exit --no-autoindent")
-end
-
 local function new_terminal_julia()
 	new_terminal("julia")
 end
@@ -105,14 +93,12 @@ local function show_r_table()
 	local node = vim.treesitter.get_node({ ignore_injections = false })
 	assert(node, "no symbol found under cursor")
 	local text = vim.treesitter.get_node_text(node, 0)
-	local cmd = [[call slime#send("DT::datatable(]] .. text .. [[)" . "\r")]]
-	vim.cmd(cmd)
+	require("config.repl").send("r", "DT::datatable(" .. text .. ")")
 end
 
 local function source_file()
 	local file_path = vim.fn.expand("%:p")
-	local cmd = [[call slime#send("source(']] .. file_path .. [[')" . "\r")]]
-	vim.cmd(cmd)
+	require("config.repl").send("r", "source('" .. file_path .. "')")
 end
 
 local function is_otter_active()
@@ -128,7 +114,7 @@ local function run_cell_continue()
 		end
 		local lnum = vim.fn.search("^```", "W")
 		if lnum ~= 0 then
-			vim.api.nvim_win_set_cursor(0, { lnum + 1, 0 })
+			vim.api.nvim_win_set_cursor(0, { math.min(lnum + 1, vim.api.nvim_buf_line_count(0)), 0 })
 		end
 	else
 		vim.cmd("normal Qap")
@@ -136,24 +122,22 @@ local function run_cell_continue()
 	end
 end
 
-local function run_line_continue()
-	vim.cmd("normal QQ")
-	vim.cmd("normal! +")
+local function run_expr_continue()
+	vim.cmd("normal Qie]e")
 end
 
 vim.keymap.set("n", "<c-cr>", run_cell_continue, { desc = "Run chunk/paragraph and continue to next" })
-vim.keymap.set("n", "<s-cr>", run_line_continue, { desc = "Run line and continue to next" })
+vim.keymap.set("n", "<s-cr>", run_expr_continue, { desc = "Run expression and continue to next" })
 
 require("which-key").add({
 	{
 		{ "<leader>c", group = "[c]ode / [c]ell / [c]hunk" },
-		{ "<leader>cy", new_terminal_ipython, desc = "new ipython terminal" },
 		{ "<leader>cj", new_terminal_julia, desc = "new [j]ulia terminal" },
-		{ "<leader>cp", new_terminal_python, desc = "new [p]ython terminal" },
-		{ "<leader>cr", new_terminal_r, desc = "new [R] terminal" },
+		{ "<leader>cp", require("config.repl").toggle("python"), desc = "toggle [p]ython repl" },
+		{ "<leader>cr", require("config.repl").toggle("r"), desc = "toggle [R] repl" },
 		{ "<leader>ca", require("otter").activate, desc = "otter [a]ctivate" },
 		{ "<leader>cc", "O# %%<cr>", desc = "magic [c]omment code chunk # %%" },
-		{ "<leader>cd", require("otter").activate, desc = "otter [d]eactivate" },
+		{ "<leader>cd", require("otter").deactivate, desc = "otter [d]eactivate" },
 		{ "<leader>cij", insert_julia_chunk, desc = "[j]ulia code chunk" },
 		{ "<leader>cip", insert_py_chunk, desc = "[p]ython code chunk" },
 		{ "<leader>cir", insert_r_chunk, desc = "[r] code chunk" },
@@ -178,6 +162,7 @@ require("which-key").add({
 		{ "<leader>r", group = "[r] R specific tools" },
 		{ "<leader>rt", show_r_table, desc = "show [t]able" },
 		{ "<leader>rs", source_file, desc = "[s]ource file" },
+		{ "<leader>j", group = "[j]et repl" },
 		{ "<leader>l", group = "[L]SP" },
 		{ "<leader>n", group = "Org Roam" },
 		{ "<leader>o", group = "[O]rg Mode" },
