@@ -4,10 +4,30 @@ return {
 		"quarto-dev/quarto-nvim",
 		ft = { "quarto" },
 		dev = false,
+		init = function()
+			-- otter-ls rewrites request params in place to point at its hidden buffers.
+			-- Requests sent to all clients (e.g. blink's signature help) share one params
+			-- table, so the other servers on the .qmd then get asked
+			-- about a document they never opened. Give otter its own copy.
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("otter-copy-params", { clear = true }),
+				callback = function(ev)
+					local client = vim.lsp.get_client_by_id(ev.data.client_id)
+					if not (client and client.name:match("^otter%-ls") and not client._params_copied) then
+						return
+					end
+					client._params_copied = true
+					local request = client.rpc.request
+					client.rpc.request = function(method, params, ...)
+						return request(method, vim.deepcopy(params), ...)
+					end
+				end,
+			})
+		end,
 		opts = {
 			lspFeatures = {
 				languages = {
-					--"r",
+					"r",
 					"python",
 					"julia",
 					"bash",
@@ -17,12 +37,13 @@ return {
 					"javascript",
 					"typescript",
 					"ojs",
-					"lua",
 				},
 			},
 			codeRunner = {
 				enabled = true,
-				default_method = "slime",
+				default_method = function(cell, ignore_cols)
+					require("config.repl").quarto_runner(cell, ignore_cols)
+				end,
 			},
 		},
 		dependencies = {
@@ -32,42 +53,10 @@ return {
 			"jmbuhr/otter.nvim",
 		},
 	},
-	{ -- send code from python/r/qmd documets to a terminal or REPL
-		-- like ipython, R, bash
-		"jpalardy/vim-slime",
-		lazy = false,
-		init = function()
-			vim.g.slime_target = "neovim"
-			vim.g.slime_no_mappings = true
-			vim.g.slime_python_ipython = 1
-			vim.g.slime_bracketed_paste = 1
-		end,
-		config = function()
-			vim.g.slime_input_pid = false
-			vim.g.slime_suggest_default = true
-			vim.g.slime_menu_config = false
-			vim.g.slime_neovim_ignore_unlisted = true
-
-			local function mark_terminal()
-				local job_id = vim.b.terminal_job_id
-				vim.print("job_id: " .. job_id)
-			end
-
-			local function set_terminal()
-				vim.fn.call("slime#config", {})
-			end
-			vim.keymap.set("n", "<leader>cm", mark_terminal, { desc = "[m]ark terminal" })
-			vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
-		end,
-		keys = {
-			{ "Q", "<Plug>SlimeMotionSend", mode = "n", desc = "Slime Motion Send" },
-			{ "QQ", "<Plug>SlimeLineSend", mode = "n", desc = "Slime Line Send" },
-			{ "Q", "<Plug>SlimeRegionSend", mode = "x", desc = "Slime Region Send" },
-			{ "<CR-Q>", "<Plug>SlimeCellSend", mode = "n", desc = "Slime Cell Send" },
-		},
-	},
 	{ -- directly open ipynb files as quarto docuements
 		-- and convert back behind the scenes
+		-- Better (i think): use jupytext from the console, because that ties in
+		-- with uv, and is more elegant in general
 		"GCBallesteros/jupytext.nvim",
 		opts = {
 			custom_language_formatting = {

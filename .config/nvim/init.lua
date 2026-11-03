@@ -398,7 +398,7 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
-				-- pyright = {},
+				pyright = {},
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
 				--
@@ -423,11 +423,6 @@ require("lazy").setup({
 						-- diagnostics = { disable = { 'missing-fields' } },
 					},
 				},
-
-				r_language_server = {
-					filetypes = { "r", "rmd", "rmarkdown" },
-					settings = { r = { lsp = { rich_documentation = false } } },
-				},
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -446,7 +441,6 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
-				"r-languageserver",
 				"air", -- r code formater
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -454,6 +448,8 @@ require("lazy").setup({
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
 				automatic_installation = false,
+				-- R language features come from ark (jet.ark), which runs with the kernel
+				automatic_enable = { exclude = { "r_language_server" } },
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
@@ -642,6 +638,8 @@ require("lazy").setup({
 			})
 
 			-- Load the colorscheme here.
+			-- Like many other themes, this one has different styles, and you could load
+			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
 			vim.cmd.colorscheme("gruvbox")
 		end,
 	},
@@ -749,10 +747,11 @@ require("lazy").setup({
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		-- main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
+		branch = "main",
+		-- Neovim 0.12+ handles highlight/indent natively; nvim-treesitter
+		-- only manages parser installation now.
+		config = function()
+			require("nvim-treesitter").install({
 				"bash",
 				"c",
 				"diff",
@@ -764,27 +763,11 @@ require("lazy").setup({
 				"query",
 				"vim",
 				"vimdoc",
+				"r",
+				"python",
 				"latex",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-				disable = { "latex" },
-			},
-			indent = { enable = true, disable = { "ruby", "latex" } },
-		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+			})
+		end,
 	},
 	{
 		"folke/flash.nvim",
@@ -829,5 +812,18 @@ require("lazy").setup({
 	},
 })
 
+vim.treesitter.language.register("stan", "stan")
+
+-- Disable treesitter highlighting for latex (conflicts with vimtex/etc.)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "latex", "tex" },
+	callback = function(args)
+		vim.treesitter.stop(args.buf)
+	end,
+})
+
+vim.filetype.add({
+	extension = { stan = "stan" },
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

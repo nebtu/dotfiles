@@ -1,0 +1,9 @@
+[Unit]
+Description=Restic backup
+OnFailure=restic-failure@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/ben/.config/restic/backup
+Nice=10
+TimeoutStartSec=4h
