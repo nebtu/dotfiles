@@ -7,4 +7,5 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch Polybar
-MONITOR=HDMI-A-0 polybar bottom &
+MONITOR=HDMI-2 polybar bottom &
+MONITOR=HDMI-3 polybar bottom &

@@ -46,7 +46,7 @@ set $right h
 floating_modifier Mod4
 
 # start a terminal
-bindsym Mod4+Return exec i3-sensible-terminal
+bindsym Mod4+Return exec alacritty
 
 # kill focused window
 bindsym Mod4+Shift+q kill
@@ -206,7 +206,9 @@ for_window [all] border pixel 0
 bindsym Mod4+i exec python $HOME/.config/insert_latex.py
 for_window [class="Alacritty floating"] floating enable
 
-exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of eDP-1
+#exec_always --no-startup-id xrandr --output HDMI-1 --auto --right-of HDMI-2
+exec_always --no-startup-id setxkbmap -layout de neo_qwertz -option ""
+exec_always --no-startup-id xrandr --output HDMI-2 --auto --right-of HDMI-3
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id feh --no-fehbg --bg-scale $HOME/.config/bgimg/forest-ch.jpg
 exec picom --experimental-backends -b

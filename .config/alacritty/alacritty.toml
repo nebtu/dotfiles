@@ -48,13 +48,8 @@ opacity = 0.85
 x = 5
 y = 5
 
-[[keyboard.bindings]]
-chars = "\u001B[13;2u"
-key = "Return"
-mods = "Shift"
-
-[[keyboard.bindings]]
-chars = "\u001B[13;5u"
-key = "Return"
-mods = "Control"
-
+[keyboard]
+bindings = [
+    { key = "Return", mods = "Shift", chars = "\u001B[13;2u" },
+    { key = "Return", mods = "Control", chars = "\u001B[13;5u" },
+]

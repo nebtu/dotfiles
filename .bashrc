@@ -10,6 +10,7 @@ alias tlmgr='/usr/share/texmf-dist/scripts/texlive/tlmgr.pl --usermode'
 PS1='[\u@\h \W]\$ '
 export PATH=~/.emacs.d/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/Nextcloud/Documents/scripts:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 export VISUAL=nvim
 export EDITOR="$VISUAL"
@@ -19,6 +20,7 @@ alias sus='systemctl suspend'
 alias bgimg=~/.fehbg
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias r=radian
+alias fd=fdfind
 
 #source /usr/share/fzf/key-bindings.bash
 #source /usr/share/fzf/completion.bash
